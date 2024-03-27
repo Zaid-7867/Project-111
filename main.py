@@ -1,0 +1,83 @@
+import plotly.figure_factory as ff
+import plotly.graph_objects as go 
+import statistics
+import random
+import pandas as pd 
+import csv
+
+df=pd.read_csv("studentMarks.csv")
+data=df["Math_score"].tolist()
+fig=ff.create_distplot([data],["Math_score"],show_hist=False)
+#fig.show()
+mean=statistics.mean(data)
+sdv=statistics.stdev(data)
+print(mean)
+print(sdv)
+def randomSetOfMean(counter):
+    dataSet=[]
+    for i in range(0,counter):
+        randomIndex=random.randint(0,len(data)-1)
+        value=data[randomIndex]
+        dataSet.append(value)
+    mean=statistics.mean(dataSet)
+    return(mean)
+meanList=[]
+for i in range(0,1000):
+    setOfMean=randomSetOfMean(100)
+    meanList.append(setOfMean)
+sdv=statistics.stdev(meanList)
+print(sdv)
+mean=statistics.mean(meanList)
+print(mean)
+fig=ff.create_distplot([meanList],["studentMarks"],show_hist=False)
+fig.add_trace(go.Scatter(x=[mean,mean],y=[0,0.20],mode="lines",name="mean"))
+firstSdvStart,firstSdvEnd=mean-sdv,mean+sdv
+secondSdvStart,secondSdvEnd=mean-(2*sdv),mean+(2*sdv)
+thirdSdvStart,thirdSdvEnd=mean-(3*sdv),mean+(3*sdv)
+fig.add_trace(go.Scatter(x=[mean,mean],y=[0,0.17],mode="lines",name="MEAN"))
+fig.add_trace(go.Scatter(x=[firstSdvStart,firstSdvStart],y=[0,0.17],mode="lines",name="sdv1"))
+fig.add_trace(go.Scatter(x=[firstSdvEnd,firstSdvEnd],y=[0,0.17],mode="lines",name="sdv1"))
+fig.add_trace(go.Scatter(x=[secondSdvStart,secondSdvStart],y=[0,0.17],mode="lines",name="sdv2"))
+fig.add_trace(go.Scatter(x=[secondSdvEnd,secondSdvEnd],y=[0,0.17],mode="lines",name="sdv2"))
+fig.add_trace(go.Scatter(x=[thirdSdvStart,thirdSdvStart],y=[0,0.17],mode="lines",name="sdv3"))
+fig.add_trace(go.Scatter(x=[thirdSdvEnd,thirdSdvEnd],y=[0,0.17],mode="lines",name="sdv3"))
+#fig.show()
+df=pd.read_csv("data1.csv")
+data=df["Math_score"].tolist()
+mean1=statistics.mean(data)
+sdv1=statistics.stdev(data)
+print(mean1)
+print(sdv1)
+fig=ff.create_distplot([meanList],["studentMarks"],show_hist=False)
+fig.add_trace(go.Scatter(x=[mean,mean],y=[0,0.20],mode="lines",name="mean"))
+fig.add_trace(go.Scatter(x=[mean1,mean1],y=[0,0.20],mode="lines",name="mean1"))
+fig.add_trace(go.Scatter(x=[firstSdvStart,firstSdvStart],y=[0,0.17],mode="lines",name="sdv1"))
+fig.add_trace(go.Scatter(x=[firstSdvEnd,firstSdvEnd],y=[0,0.17],mode="lines",name="sdv1"))
+#fig.show()
+df=pd.read_csv("data2.csv")
+data=df["Math_score"].tolist()
+mean2=statistics.mean(data)
+sdv2=statistics.stdev(data)
+print(mean2)
+print(sdv2)
+fig=ff.create_distplot([meanList],["studentMarks"],show_hist=False)
+fig.add_trace(go.Scatter(x=[mean,mean],y=[0,0.20],mode="lines",name="mean"))
+fig.add_trace(go.Scatter(x=[mean2,mean2],y=[0,0.20],mode="lines",name="mean2"))
+fig.add_trace(go.Scatter(x=[firstSdvEnd,firstSdvEnd],y=[0,0.17],mode="lines",name="sdv1"))
+fig.add_trace(go.Scatter(x=[secondSdvEnd,secondSdvEnd],y=[0,0.17],mode="lines",name="sdv2"))
+#fig.show()
+df=pd.read_csv("data3.csv")
+data=df["Math_score"].tolist()
+mean3=statistics.mean(data)
+sdv3=statistics.stdev(data)
+print(mean3)
+print(sdv3)
+fig=ff.create_distplot([meanList],["studentMarks"],show_hist=False)
+fig.add_trace(go.Scatter(x=[mean,mean],y=[0,0.20],mode="lines",name="mean"))
+fig.add_trace(go.Scatter(x=[mean3,mean3],y=[0,0.20],mode="lines",name="mean3"))
+fig.add_trace(go.Scatter(x=[firstSdvEnd,firstSdvEnd],y=[0,0.17],mode="lines",name="sdv1"))
+fig.add_trace(go.Scatter(x=[secondSdvEnd,secondSdvEnd],y=[0,0.17],mode="lines",name="sdv2"))
+fig.add_trace(go.Scatter(x=[thirdSdvEnd,thirdSdvEnd],y=[0,0.17],mode="lines",name="sdv3"))
+#fig.show()
+zScore=(mean-mean3)/sdv
+print(zScore)
